@@ -3,6 +3,8 @@ CareAll - Retired folks make themselves available for care and young people can 
 
 Tech Stack: Python-3.7, Django-2.2, Bootstrap-4.1, Jinja-Template-2.1, CSS-3, HTML-5.
 
+Requirements: Django-2.2, Bootstrap CDN
+
 
 This project support below functionalities:
 --------------------------------------------
