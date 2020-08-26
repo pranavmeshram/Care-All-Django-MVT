@@ -1,0 +1,114 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Log In{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background-color:silver;
+    
+  }
+
+  .img-col{
+    background: url("https://unsplash.com/photos/mq6GbT4E8e8/download?force=true");
+    background-position: center;
+    background-size: cover;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  p>input {
+    width: 60%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  p>select {
+    width: 35%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 5px;
+  }
+
+  .separator {
+  border: 2px solid #e8e9ea;
+  margin-bottom: 15px;
+  } 
+
+  .image-text{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  }
+
+  span>ul{
+    list-style-type:none
+  }
+
+  
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+  <div class="row" style="height:91vh">
+    <div class="col-md-6 bg-white text-dark">
+      <h2 class="text-center mb-1 mt-5">Log In</h2>
+      <p class="text-center">Resume where you left off.</p>
+      <hr class="separator mb-5">
+      <form method="post" class="text-center">
+        {% csrf_token %}
+
+        <!-- <p class="text-center">
+          {{ form.as_p }}
+        </p> -->
+
+        <span class="text-muted text-center">
+          {{ form.non_field_errors }}
+        </span>
+
+        {% for field in form %}
+
+          <p class="mb-1"><b>{{ field.label_tag }}</b></p>
+          <p>{{ field }}</p>
+
+          {% for error in field.errors %}
+            <div class="text-muted text-center">{{ error }}</div>
+          {% endfor %}
+
+        {% endfor %}
+
+        <button type="submit" class="text-center btn btn-success px-3 mt-4 font-weight-bold " style="letter-spacing: 1.1px; width: 35%;">
+          Sign Up
+        </button>
+
+        <div class="mt-4 mb-2 d-flex justify-content-center">
+          <a href="{% url 'password_reset' %}">
+              <span class="text-center">Forgot password?</span>
+          </a>
+        </div>
+
+        <div class="mt-1 d-flex justify-content-end mb-0">
+          <span style="position: relative; top: 8px;">New to the Site?</span>&nbsp;&nbsp;
+          <a href="{% url 'signup_page' %}" class="btn btn-outline-info pr-3 pl-3 mr-2" style="font-weight: 500;">Sign Up</a>
+        </div>
+
+      </form>
+
+    </div>
+
+    <div class="col-md-6 img-col">
+      <div class="image-text text-white">
+        <h2>Welcome Back</h2>
+        <p>This place hasn’t been the same without you.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
