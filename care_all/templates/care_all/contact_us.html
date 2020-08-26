@@ -1,0 +1,75 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block extra_css %} 
+<style>
+    body{
+        background-color: whitesmoke;
+    }
+
+    .custom-sign-up-label-size{
+    font-size: 20px;
+    color: gray;
+}
+.custom-sign-up-field-size > input{
+    width: 50%;
+    height: 2.5em;
+    border: 1px solid rgb(173, 159, 159);
+    border-radius: 8px;
+    padding: 5px;
+}
+
+#id_message{
+    width: 60%;
+    height: 7.5em;
+    border: 1px solid rgb(173, 159, 159);
+    border-radius: 8px;
+    font-family: Arial;
+    padding: 5px;
+    letter-spacing: .2px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<section class="container mb-5 mt-5 shadow p-3 mb-5 bg-white rounded">
+     
+  <form method="POST" class="contact-us-form-container bg-white border border-top-0 border-secondary">
+
+      <h2 class="text-center mb-2 font-weight-bold">Write to Us</h2>
+      <p class="text-center mb-4" style="font-size: 22px;">We'd love to hear from you, please drop us a line if you have any query.<br>We will get back to you shortly</p>
+
+      {% csrf_token %}
+      <span class="form-errors text-center">
+        {{ form.non_field_errors }}
+      </span>
+
+      {% for field in form %}
+        <p>
+            <div class="text-center custom-sign-up-label-size"><b>{{ field.label_tag }}</b></div>
+            <div class="text-center custom-sign-up-field-size">{{ field }}</div>
+        </p>
+
+          {% for error in field.errors %}
+            <span class="SignUpErrors d-flex justify-content-center">
+              <i class="fas fa-long-arrow-alt-up"></i>&nbsp;
+                {{ error }}&nbsp;
+              <i class="fas fa-long-arrow-alt-up"></i>
+            </span>
+          {% endfor %}
+
+      {% endfor %}
+       
+      
+      <a href="{% url 'thank_you_page' %}" style="text-decoration: none;" class="d-flex justify-content-center mt-5 mb-4">
+          <input type="submit" value="Submit" class="btn btn-success btn-lg btn-block w-50">
+      </a>
+  </form>
+
+</section>
+
+{% endblock %}

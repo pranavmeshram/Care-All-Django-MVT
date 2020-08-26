@@ -1,0 +1,53 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Set Funds{% endblock %}
+
+{% block extra_css %}
+<style>
+    body{
+        background-color: #ecf3f9;
+    }
+    #id_funds{
+        width: 15%;
+    }
+    label{
+        margin-bottom: 0px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mb-4 mt-4 shadow-lg p-2 bg-light rounded w-50" style="border: 2px double green; border-style: double;">
+        <form method="POST", enctype="multipart/form-data", class="border border-success border-top-0">
+            {% csrf_token %}
+            <h3 class="text-left ml-4"><i>Set Your Funds</i></h3>
+            
+            <p class="text-center mb-3" style="font-size: 32px; font-weight: 500;">{{ elder.user }}</p>
+            <img src="{{ elder.profile_photo.url }}" class="rounded-circle mt-2 mb-2 mx-auto d-block" alt="profile_photo"
+            style="width: 35%; height: 211px;">
+            
+            <span class="form-errors">
+                {{ form.non_field_errors }}
+            </span>
+            
+            {% for field in form %}
+                <p>
+                    <div class="text-center mb-0" style="font-size: 22px;"><b>{{ field.label_tag }}</b></div>
+                    <p class="text-muted text-center mb-3">*This is the amount you'll pay in rupees per month/-</p>
+                    <div class="text-center mt-2" style="font-size: 22px;">{{ field }}</div>
+                </p>
+                    {% for error in field.errors %}
+                        <div class="text-muted">{{ error }}</div>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            
+            <span class="d-flex justify-content-center mt-4 mb-3">
+                <button class="btn btn-success mb-2" style="font-weight: 600; letter-spacing: 0.5px; width: 25%;">
+                    Update
+                </button>
+            </span>
+
+        </form>
+    </div>
+{% endblock %}

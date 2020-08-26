@@ -1,0 +1,75 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Request Queue{% endblock %}
+
+{% block extra_css %} 
+<style>
+    body{
+        background-color: #ecf3f9;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+  {% if care_giver %}
+  <div class="card text-white text-center bg-success mb-3 ml-1 fixed-top" style="max-width: 13rem; margin-top: 6em;">
+
+    <div class="card-header p-0" style="background: #3a7e35;">You are currently in care of
+      <a href="{% url 'care_request_sender_profile_page' care_giver.id %}" class="text-white" style="text-shadow: 2px 2px 4px #000000;">
+        <b>{{ care_giver.name }}</b>
+      </a>
+    </div>
+
+    <div class="card-body text-success p-0 pt-2">
+      <img src="{{ care_giver.profile_photo.url }}" class="card-img rounded-circle pb-2" alt="profile_photo" style="width: 60%; height: 150px;">
+
+      <p class="card-text mb-0 card-footer p-1 text-center" style="background-color: #1e7e34; text-shadow: 2px 2px 4px #000000;">
+        <small>
+          <a href="{% url 'care_request_sender_profile_page' care_giver.id %}" 
+          class="text-monospace text-white">View Profile</a>
+          <i class="fas fa-arrow-circle-right text-white"></i>
+        </small>
+      </p>
+    </div>
+  </div>
+  
+  {% endif %}
+  
+
+
+
+    <div class="container mb-5 mt-5 border shadow-lg p-3 rounded">
+       
+        <h3 class="text-left mb-5 mt-2"><i>Your Request Queue</i></h3>
+        
+        {% for care_request in requests %}
+        <div class="card mb-3 border border-light shadow-lg pl-3 mb-5 mr-4 ml-4 bg-white rounded">
+            <div class="row no-gutters">
+              <div class="col-md-3">
+                <b>#{{forloop.counter}}</b>
+                <img src="{{ care_request.sender.profile_photo.url }}" class="card-img rounded-circle mt-2 mb-2 mx-auto d-block" alt="profile_photo"
+                style="width: 85%; height: 185px;">
+              </div>
+              <div class="col-md-9">
+                <div class="card-body pb-0">
+                    <h4 class="card-title text-center" style="font-size: 32px;">{{ care_request.sender.name }}</h4>
+                    
+                    <p class="card-text mb-2"><b>Age: </b>{{ care_request.sender.age }}</p>
+                    <p class="card-text mb-2"><b>Elders In Care: </b>{{ care_request.sender.elders_in_care }}</p>
+                    <p class="card-text text-justify mb-2"><b>Bio:- </b>{{ care_request.sender.bio | truncatewords:15 }}</p>
+                    <p class="card-text mb-1"><small><a href="{% url 'care_request_sender_profile_page' care_request.sender.id %}" 
+                        class="text-monospace">View Profile </a></small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        
+        
+
+
+
+        
+    </div>
+{% endblock %}

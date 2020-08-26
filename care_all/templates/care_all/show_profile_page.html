@@ -1,0 +1,260 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Your Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+  body{
+    background-color: #f1f9ec;
+  }
+
+  .single-review .review-rating {
+  display: inline-block;
+}
+
+.pull-right {
+    float: right !important;
+    color: #FFB656;
+  }
+
+
+  .review-form-submit-btn {
+    color: #F8694A;
+    background-color: transparent;
+    border-color: #F8694A;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .review-form-submit-btn:hover, .review-form-submit-btn:focus {
+    color: #FFF;
+    background-color: #F8694A;
+  }
+
+  .review-form .input-rating .stars {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 16px;
+}
+
+.review-form .input-rating .stars input[type="radio"] {
+  display: none;
+}
+
+.review-form .input-rating .stars>label {
+  float: right;
+  cursor: pointer;
+  padding: 0px 3px;
+  margin: 0px;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+  
+}
+
+.review-form .input-rating .stars>label:hover, .review-form .input-rating .stars>label:hover~label {
+  -webkit-transform: scale(1.5);
+  -ms-transform: scale(1.5);
+  transform: scale(1.5);
+  
+}
+
+.review-form .input-rating .stars>label:before {
+  content: "\f006";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  /* color: #DADADA; */
+  color: grey;
+  font-size: 14px;
+  -webkit-transition: 0.3s all;
+  transition: 0.3s all;
+  
+}
+
+.review-form .input-rating .stars>label:hover:before, .review-form .input-rating .stars>label:hover~label:before {
+  content: "\f005";
+  color: #FFB656;
+  
+}
+
+.review-form .input-rating .stars>input:checked label:before, .review-form .input-rating .stars>input:checked~label:before {
+  content: "\f005";
+  color: #FFB656;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center mt-3">Y<u>our Profile Pag</u>e</h1>
+<div class="container mt-2"> 
+
+  <div class="card mb-5 mt-3 border-left-0 border-top-0 rounded-lg shadow-lg p-3 bg-white rounded">
+      <div class="row no-gutters">
+
+        <div class="col-md-4 mt-2">
+            <!-- img  -->
+          {% if profile.profile_photo %}
+              <img src="{{ profile.profile_photo.url }}" class="card-img" alt="profile-photo" height="400px">
+          {% else %}
+              <img src="{% static 'care_all/img/pl_image.jpg' %}" class="card-img" alt="default-profile-photo">
+          {% endif %}
+        </div>
+
+        <div class="col-md-8">
+            <!-- body -->
+          <div class="card-body m-2">
+            
+            {% if profile.user.role == 'Elder' %}
+              <div> 
+                <p class="text-center" style="font-size: 32px; font-weight: 500;">{{ profile.user }}</p>
+                <span class="d-flex justify-content-end">
+                  <a href="{% url 'edit_elder_profile_page' profile.id %}" class="btn btn-info mr-4" style="font-weight: 500;">Edit Profile</a>
+                  <a href="{% url 'set_funds_page' profile.id %}" class="btn btn-success" style="font-weight: 500;">Set Funds</a>
+                </span>
+              </div>
+
+              <p class="card-text"><b>Full Name: </b>{{ profile.name }}</p>
+              <p class="card-text"><b>Age: </b>{{ profile.age }}</p>
+              <p class="card-text"><b>Status: </b>{{ profile.status }}</p>
+              <p class="card-text"><b>Role: </b>{{ profile.user.role }}</p>
+              <p class="card-text"><b>Funds: </b>{{ profile.funds }}/-</p>
+              <p class="card-text text-justify"><b>Bio:- <br> </b>{{ profile.bio }}</p>
+              <p class=" card-text mt-3"><small class="text-muted">Last updated 3 mins ago</small></p>
+            
+
+            {% else %}
+              <div> 
+                <p class="text-center" style="font-size: 32px; font-weight: 500;">{{ profile.user }}</p>
+                <a href="{% url 'edit_youngster_profile_page' profile.id %}" class="d-flex justify-content-end">Edit Profile..</a>
+              </div>
+
+              <p class="card-text"><b>Full Name: </b>{{ profile.name }}</p>
+              <p class="card-text"><b>Age: </b>{{ profile.age }}</p>
+              <p class="card-text"><b>Role: </b>{{ profile.user.role }}</p>
+              <p class="card-text"><b>Elders In Care: </b>{{ profile.elders_in_care }}</p>
+              <p class="card-text text-justify"><b>Bio:- <br> </b>{{ profile.bio }}</p>
+              <p class=" card-text mt-3"><small class="text-muted">Last updated 3 mins ago</small></p>
+            {% endif %}
+
+          </div>
+          
+        </div>
+
+        
+      </div>
+    </div>
+    
+</div>
+
+
+
+
+<div class="container-fluid mb-3">
+  <div class="row">
+
+    <div class="col-md-6">
+    <h2 class="text-center mb-4">Reviews & Ratings</h2>
+    {% for review in reviews %}
+
+      <div class="card bg-light mb-4 ml-5 border shadow-lg bg-light rounded">
+        <div class="card-header">
+          <span style="margin-right: 20%;"> <i class="far fa-user"></i> 
+
+            {% if review.review_writer_elder %}
+              {{ review.review_writer_elder.name }}
+            {% else %}
+              {{ review.review_writer_youngster.name }}
+            {% endif %}
+            
+          </span>
+
+          <div style="display: inline-block;" class="text-center"><i class="far fa-clock"></i> {{ review.review_created_date }}</div>
+
+          <span class="ml-5">
+            <div class="review-rating pull-right">
+              <i class="fa fa-star{% if review.review_rating < 1 %}-o empty{% endif %}"></i>
+              <i class="fa fa-star{% if review.review_rating < 2 %}-o empty{% endif %}"></i>
+              <i class="fa fa-star{% if review.review_rating < 3 %}-o empty{% endif %}"></i>
+              <i class="fa fa-star{% if review.review_rating < 4 %}-o empty{% endif %}"></i>
+              <i class="fa fa-star{% if review.review_rating < 5 %}-o empty{% endif %}"></i>
+            </div>
+          </span>
+
+        </div>
+
+        <div class="card-body pt-1 pb-1">
+          <h5 class="card-title text-left mb-1 mt-1">
+            <span style="margin-right: 40%;">{{ review.review_subject }}</span>
+          </h5>
+          <p class="card-text text-justify">{{ review.review_message }}</p>
+        </div>
+
+      </div>
+   
+    {% endfor %}
+    </div>
+
+
+
+    <div class="col-md-6">
+      <h2 class="text-center mb-4">Write Your Review</h2>
+
+      {% if messages %}
+
+        {% for message in messages %}
+            <div class="alert alert-info alert-dismissible fade show ml-3" role="alert" style="font-size: 20px; width: 82%;">
+                <strong class="d-flex justify-content-center">{{ message }}</strong> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+      {% endif %}
+      
+      <form class="review-form ml-3" action="" method="POST">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <input name="review_subject" class="input p-3 border border-dark rounded-lg" type="text" placeholder="Subject"  style="width: 84%;"/>
+        </div>
+
+        <div class="form-group">
+          <textarea name="review_message" class="input p-3 border border-dark rounded-lg" placeholder="Your review" style="width: 84%; height: 140px;"></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="input-rating">
+            <strong class="text-uppercase">Your Rating: </strong>
+            <div class="stars">
+              <input type="radio" id="star5" name="review_rating" value="5" /><label for="star5"></label>
+              <input type="radio" id="star4" name="review_rating" value="4" /><label for="star4"></label>
+              <input type="radio" id="star3" name="review_rating" value="3" /><label for="star3"></label>
+              <input type="radio" id="star2" name="review_rating" value="2" /><label for="star2"></label>
+              <input type="radio" id="star1" name="review_rating" value="1" /><label for="star1"></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-danger pt-1 pb-0" role="alert" style="width: 84%;">
+          <p class="text-center font-weight-bold mb-1">You cannot write review about yourself</p>
+          <i class="text-center">If you praise yourself, people will think that you are boastful and will not respect you.</i>
+          <p class="text-right mb-0"><i>-Anonymous</i></p>
+        </div>
+
+        <!-- <button class="btn review-form-submit-btn">Submit</button> -->
+      </form>
+      
+
+    </div>
+
+    
+
+
+  </div>
+
+</div>
+{% endblock %}

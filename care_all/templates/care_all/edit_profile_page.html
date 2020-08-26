@@ -1,0 +1,101 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Edit Your Profile{% endblock %}
+
+{% block extra_css %} 
+<style>
+    body{
+        background-color: #eae9e0;
+    }
+    /* textarea{
+        width: 65%;
+        height: 200px;
+        padding: 10px 15px;
+        text-align: justify;
+    }
+    .help_text, .helptext{
+    color:#959595;;
+    font-size: 14px;
+    font-style: italic;
+    letter-spacing: .5px;
+    } */
+
+    #id_name {
+    width: 40%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  #id_age {
+    width: 15%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 5px;
+  }
+
+
+  p>select {
+    width: 15%;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 6px;
+    padding: 5px;
+  }
+
+  #id_bio {
+    width: 80%;
+    height: 185px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 8px;
+  }
+
+  .separator {
+  border: 2px solid #e8e9ea;
+  margin-bottom: 15px;
+  } 
+
+  .custom-para>p{
+      color: red;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mb-5 mt-5 shadow p-3 mb-5 bg-white rounded">
+        <form method="POST", enctype="multipart/form-data", class="container bg-white">
+            <h2 class="text-center">Edit Your Profile</h2>
+            <!-- {% csrf_token %}    
+            {{ form.as_p }} -->
+            {% csrf_token %}    
+            {{ form.media }}
+            <span class="form-errors">
+                {{ form.non_field_errors }}
+            </span>
+      
+            {% for field in form %}
+    
+                <p class="mb-1 custom-para"><b>{{ field.label_tag }}</b></p>
+                <p>{{ field }}</p>
+        
+                {% for error in field.errors %}
+                    <div class="text-muted text-center">{{ error }}</div>
+                {% endfor %}
+    
+            {% endfor %}
+    
+            <div class="container text-center mt-5">
+                <button class="btn btn-success w-25">Update Profile</button>
+                <span class="m-5"></span>
+                <a href="{% url 'show_profile_page' 12 %}">
+                    <input class="btn btn-dark w-25" type="cancel" , value="Cancel">
+                </a>
+            </div>
+            
+
+        </form>
+    </div>
+{% endblock %}

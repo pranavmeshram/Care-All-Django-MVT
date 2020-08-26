@@ -1,0 +1,227 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Available Elder Profile Details{% endblock %}
+
+{% block extra_css %}
+<style>
+    body{
+        background-color: #ecf3f9;
+    }
+
+    .single-review .review-rating {
+        display: inline-block;
+    }
+
+    .pull-right {
+        float: right !important;
+        color: #FFB656;
+    }
+
+
+    .review-form-submit-btn {
+        color: #F8694A;
+        background-color: #fefefe;
+        border-color: #F8694A;
+        font-weight: 700;
+        letter-spacing: 1px;
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+    .review-form-submit-btn:hover, .review-form-submit-btn:focus {
+        color: #FFF;
+        background-color: #F8694A;
+    }
+
+    .review-form .input-rating .stars {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .review-form .input-rating .stars input[type="radio"] {
+        display: none;
+    }
+
+    .review-form .input-rating .stars>label {
+        float: right;
+        cursor: pointer;
+        padding: 0px 3px;
+        margin: 0px;
+        -webkit-transition: 0.3s all;
+        transition: 0.3s all;
+    }
+
+    .review-form .input-rating .stars>label:hover, .review-form .input-rating .stars>label:hover~label {
+        -webkit-transform: scale(1.5);
+        -ms-transform: scale(1.5);
+        transform: scale(1.5);
+    }
+
+    .stars>label:before {
+        content: "\f006";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        color: grey;
+        font-size: 14px;
+        -webkit-transition: 0.3s all;
+        transition: 0.3s all;
+    }
+
+    .review-form .input-rating .stars>label:hover:before, .review-form .input-rating .stars>label:hover~label:before {
+        content: "\f005";
+        color: #FFB656;
+    }
+
+
+    .review-form .input-rating .stars>input:checked label:before, .review-form .input-rating .stars>input:checked~label:before {
+        content: "\f005";
+        color: #FFB656;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 mb-2">
+      
+        <form method="POST", enctype="multipart/form-data", class="">
+            {% csrf_token %}
+            <h3 class="text-left mb-2"><i>Elder Profile Details: </i></h3>
+            
+            <div class="card mt-3 border-left-0 border-top-0 rounded-lg shadow-lg p-3 bg-white rounded">
+                <p class="text-center mb-4" style="font-size: 32px; font-weight: 500;">{{ elder.user }}</p>
+                <div class="row no-gutters">
+        
+                    <div class="col-md-4 mt-2">
+                        <!-- img  -->
+                        {% if elder.profile_photo %}
+                            <img src="{{ elder.profile_photo.url }}" class="card-img" alt="profile-photo" height="400px">
+                        {% else %}
+                            <img src="{% static 'care_all/img/pl_image.jpg' %}" class="card-img" alt="default-profile-photo">
+                        {% endif %}
+                    </div>
+            
+                    <div class="col-md-8">
+                        <!-- body -->
+                        <div class="card-body m-2">
+                            <p class="card-text mt-5"><b>Full Name: </b>{{ elder.name }}</p>
+                            <p class="card-text"><b>Age: </b>{{ elder.age }}</p>
+                            <p class="card-text"><b>Status: </b>{{ elder.status }}</p>
+                            <p class="card-text"><b>Role: </b>{{ elder.user.role }}</p>
+                            <p class="card-text"><b>Funds: </b>{{ elder.funds }}/-</p>
+                            <p class="card-text text-justify"><b>Bio:- <br> </b>{{ elder.bio }}</p>
+                            <p class=" card-text mt-3"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </form>
+        {% if elder.status == 'Available' %}
+            <form method="GET" action="{% url 'send_care_request_page' elder.id %}" class="mb-2">
+                <span class="d-flex justify-content-center">
+                    <input type="submit" class="btn btn-lg btn-warning m-3 w-50" value="Send Care Request"> 
+                </span>
+            </form> 
+        {% endif %}
+
+
+    </div>
+
+
+
+
+
+
+    <div class="container-fluid mb-3 mt-5 ">
+        <div class="row">
+      
+            <div class="col-md-6">
+            <h2 class="text-center mb-4">Reviews & Ratings</h2>
+            {% for review in reviews %}
+        
+            <div class="card bg-light mb-4 ml-5 border shadow-lg bg-light rounded">
+                <div class="card-header">
+                <span style="margin-right: 20%;"><i class="far fa-user"></i> {{ review.review_writer_youngster.name }}</span>
+                <div style="display:inline-block;" class="text-center"><i class="far fa-clock"></i> {{ review.review_created_date }}</div>
+                <span class="ml-5">
+                    <div class="review-rating pull-right">
+                    <i class="fa fa-star{% if review.review_rating < 1 %}-o empty{% endif %}"></i>
+                    <i class="fa fa-star{% if review.review_rating < 2 %}-o empty{% endif %}"></i>
+                    <i class="fa fa-star{% if review.review_rating < 3 %}-o empty{% endif %}"></i>
+                    <i class="fa fa-star{% if review.review_rating < 4 %}-o empty{% endif %}"></i>
+                    <i class="fa fa-star{% if review.review_rating < 5 %}-o empty{% endif %}"></i>
+                    </div>
+                </span>
+                </div>
+        
+                <div class="card-body pt-1 pb-1">
+                <h5 class="card-title text-left mb-1 mt-1">
+                    <span style="margin-right: 40%;">{{ review.review_subject }}</span>
+                </h5>
+                <p class="card-text text-justify">{{ review.review_message }}</p>
+                </div>
+        
+            </div>
+            
+            {% endfor %}
+            </div>
+      
+      
+      
+            <div class="col-md-6">
+            <h2 class="text-center mb-4">Write Your Review</h2>
+        
+                {% if messages %}
+            
+                    {% for message in messages %}
+                        <div class="alert alert-info alert-dismissible fade show ml-3" role="alert" style="font-size: 20px; width: 78%;">
+                            <strong class="d-flex justify-content-center">{{ message }}</strong> 
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+            
+                {% endif %}
+            
+                <form class="review-form ml-3" action="" method="POST">
+                {% csrf_token %}
+                        
+                    <div class="form-group">
+                        <input name="review_subject" class="input p-3 border border-dark rounded-lg" type="text" placeholder="Subject"  style="width: 80%;"/>
+                    </div>
+            
+                    <div class="form-group">
+                        <textarea name="review_message" class="input p-3 border border-dark rounded-lg" placeholder="Your review" style="width: 80%; height: 140px;"></textarea>
+                    </div>
+            
+                    <div class="form-group">
+                    <div class="input-rating">
+                        <strong class="text-uppercase">Your Rating: </strong>
+                        <div class="stars">
+                        <input type="radio" id="star5" name="review_rating" value="5" /><label for="star5"></label>
+                        <input type="radio" id="star4" name="review_rating" value="4" /><label for="star4"></label>
+                        <input type="radio" id="star3" name="review_rating" value="3" /><label for="star3"></label>
+                        <input type="radio" id="star2" name="review_rating" value="2" /><label for="star2"></label>
+                        <input type="radio" id="star1" name="review_rating" value="1" /><label for="star1"></label>
+                        </div>
+                    </div>
+                    </div>
+            
+                    <button class="btn review-form-submit-btn mb-3">Submit</button>
+
+                </form>
+            
+            </div>
+        
+          
+      
+      
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+
+{% block title %}Elder in your Care{% endblock %}
+
+{% block extra_css %} 
+<style>
+    body{
+        background-color: whitesmoke;
+    }
+
+    .custom-a-tag{
+      color: royalblue;
+    }
+    .custom-a-tag:hover{
+      text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mb-5 mt-5 border border-secondary shadow p-3 mb-5 bg-white rounded">
+        <h1 class="text-center">Elder In Care</h1>
+
+        <p class="card-text mt-5">
+          <span class="d-flex justify-content-start text-monospace ml-5">Maximum Capacity:&nbsp;<b>4</b></span>
+          <span class="d-flex justify-content-end text-monospace mr-5">Currently in Care:&nbsp;<b>{{ youngster.elders_in_care }}</b></span>
+        </p>       
+      
+        <h5 class="card-text mt-4 mb-4">List of Elders in Care</h5>
+        
+        {% for elder in elders %}
+        <a href="{% url 'available_elders_profile_page' elder.id %}" style="text-decoration: none; color: black;">
+        <div class="card mt-3 mb-3 ml-5 mr-5 shadow-lg p-3 mb-5 bg-white rounded">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                {% if elder.profile_photo  %}
+                    <img src="{{ elder.profile_photo.url }}" class="card-img" height="220" alt="profile_photo">
+                {% else %}
+                    <img src="{% static 'care_all/img/pl_image.jpg' %}" class="card-img rounded-circle" alt="profile_photo">
+                {% endif %}
+              </div>
+              <div class="col-md-8">
+                <div class="card-body pb-0">
+                  <h5 class="card-title text-center">{{ elder.name }}</h5>
+                  <p class="card-text"><b>Funds: </b><i class="fas fa-rupee-sign"></i> {{ elder.funds }}/-</p>
+                  <p class="card-text"><b>Age: </b>{{ elder.age }} yrs</p>
+                  <p class="card-text text-justify text-truncate"><b>Bio:- <br> </b>{{ elder.bio }}</p>
+                  <p class="card-text mb-1"><small class="custom-a-tag">View Profile</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          </a>
+
+        
+        {% endfor %}
+
+        
+
+        
+
+        
+
+
+
+
+    </div>
+{% endblock %}
+
+

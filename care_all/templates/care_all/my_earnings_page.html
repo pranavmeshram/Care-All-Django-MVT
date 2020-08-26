@@ -1,0 +1,30 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}My Earnings{% endblock %}
+
+{% block extra_css %}
+<style>
+    body{
+        background-color: #ecf3f9;
+    }
+    #id_funds{
+        width: 15%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mb-4 mt-4 shadow-lg p-2 bg-light rounded w-50" style="border: 2px double green; border-style: double;">
+        <h2 class="text-center text-dark mt-4">My Earnings</h2>
+
+        <div class="container mt-5 border border-success border-top-0">
+            <img src="{{ youngster.profile_photo.url }}" class="rounded-circle mt-2 mb-2 mx-auto d-block" alt="profile_photo"
+            style="width: 35%; height: 200px;">
+            <h3 class="card-title text-center mt-4 mb-3">{{ youngster.name }}</h3>
+            <p class="card-text text-center mb-3"><b>Elders In Care: <br> </b>{{ youngster.elders_in_care }}</p>
+            <p class="card-text text-center mb-3"><b>My Per Month Earnings: <br> </b><i class="fas fa-rupee-sign"></i> {{ my_earnings }}/-</p>
+            <p class="card-text mb-1"><small><a href="{% url 'show_profile_page' youngster.id %}" 
+            class="text-monospace">View My Profile </a></small></p>
+        </div>
+    </div>
+{% endblock %}

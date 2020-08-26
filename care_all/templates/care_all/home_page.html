@@ -1,0 +1,269 @@
+{% extends 'care_all/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block extra_css %} 
+<style>
+.box-element {
+    box-shadow: hsl(0, 0%, 80%) 0 0 16px;
+    /* box-shadow: 0px 5px red; */
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 10px;
+  }
+
+  .cart-row {
+    display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+  }
+  
+  .flex-bg {
+      /* background-color: #fcefee; */
+      background-color: #2e3830;
+      color: white;
+  }
+
+  
+
+
+  /*         *****************SECTION EIGHT STYLING****************** */
+
+ #about_and_contact{
+	width: 100%;
+	padding: 10px;
+	padding-top: 30px;
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+}
+  /*         *****************SECTION EIGHT HEADIND STYLING****************** */
+
+.about_and_contactHeading{
+	padding-top: 30px;
+}
+.about_and_contactHeading > span{
+	font-family: 'Caveat', cursive;
+	color: #91ac41;
+	font-size: 26px;
+}
+.about_and_contactHeading > h3{
+	font-size: 38px;
+	margin: 0;
+}
+.about_and_contactHeading > p{
+	font-size: 16px;
+    font-weight: 400;
+    color: #8b8b99;
+    letter-spacing: 0.5px;
+}
+ /*         *****************SECTION EIGHT LEFT SIDE STYLING****************** */
+
+#about_and_contactContactUs{
+	width: 48%;
+	margin: 0 20px;
+	margin-bottom: 50px;
+}
+
+.about_and_contactAddress > h4{
+	font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    margin-top: 32px;
+}
+.about_and_contactAddress > p{
+	font-size: 16px;
+    font-weight: 400;
+    /* color: #8b8b99; */
+    color: #676771;
+    letter-spacing: 0.5px;
+    line-height: 2;
+    margin: 0;
+}
+
+ /*         *****************SECTION EIGHT RIGHT SIDE STYLING****************** */
+
+#about_and_contactMeetUs{
+	width: 40%;	
+	margin: 0 20px;
+}
+
+ /*         *****************SECTION EIGHT SUMBIT NOW BUTTON STYLING****************** */
+#about_and_contactSubmitButton{
+	font-weight: 600;
+	font-size: 16px;
+	letter-spacing: 0.8px;
+	color: black;
+    background-color: rgb(170, 210, 54);
+    padding: 14px 34px;
+    text-transform: uppercase;
+    border: 0;
+    border-radius: 4px;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+#about_and_contactSubmitButton:hover{
+	font-size: 16.2px;
+}
+
+@media(max-width: 900px){
+	#about_and_contact{
+		flex-direction: column;
+	}
+    .about_and_contactHeading{
+	padding-top: 5px;
+    }
+	#about_and_contactContactUs{
+		width: 90%;
+		margin-bottom: 50px;
+	}
+	#about_and_contactMeetUs{
+		width: 90%;	
+        padding-top: 20px ;
+	}
+	#about_and_contactMeetUsForm > input{
+		width: 90%;
+	}
+	#about_and_contactMeetUsForm > textarea{
+		width: 90%;
+	}
+	#about_and_contactSubmitButton{
+		margin-top: 3%;
+		margin-bottom: 12%;
+	}
+}
+
+ 
+</style>
+{% endblock %}
+
+{% block content %}
+    
+    {% if user.is_authenticated %}
+    <div class="container">
+
+        <!-- <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <strong> Hi {{ user.username }}!</strong> You should check in on some of those fields below.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div> -->
+    </div>  
+    
+    {% else %}
+
+        <div class="alert alert-warning alert-dismissible fade show mb-0 py-1" role="alert">
+            <strong> You are not logged in</strong> <br> 
+            <a href="{% url 'login' %}">login</a> Or
+            <a href="{% url 'signup_page' %}">signup</a>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+
+    <div class="container-fluid p-0"> 
+        <!-- landing section -->
+        <section id="landing_page">
+            <img src="{% static 'care_all/img/main-photo.jpg' %}" alt="..." style="height: 75vh; width: 100%;">
+        </section>
+
+        <!-- how does it work section -->
+       
+        
+        <!-- services section -->
+        <section id="services" class="p-3" style="background-color:  #e6dbc9;">
+            <h2 class="text-center mb-4 mt-5" style=" letter-spacing: 1px; font-size: 44px; text-shadow:0 0 3px #FF0000;">Our Services</h2>
+            <div class="box-element flex-bg mb-3" style="box-shadow: 0 4px 8px 0 rgb(63, 45, 45), 0 6px 20px 0 rgba(63, 45, 45);">
+
+                <div class="cart-row" style="text-shadow: 2px 2px 4px #000000;">
+
+                    <div style="flex: 2;">
+                        <h3 class="text-center" style="color: #c53211;">What we do</h3>
+                        <img class="p-2 mr-5" src="{% static 'care_all/img/whatwedo.jpg' %}" alt="..." width="97%">
+                        <p class="p-2 mr-4 text-justify" style="letter-spacing: .5px; font-weight: 500;">
+                            We offer support, financial and non, as well as training and education aimed at creating opportunities for better lives. One life at a time.
+                            We support various causes all over the world, our actions; some are indiviuals, some collectives. Some need financial support only, others need training, education, sometimes guidance. We tell their stories and through your generous contributions, offer them the one going or one time support they need. 
+                        </p>
+                    </div>
+
+                    <div style="flex: 2;">
+                        <h3 class="text-center" style="color: wheat;">Where we do it</h3>
+                        <!-- <i class="fas fa-globe-africa" style="font-size: 8em;"></i> -->
+                        <img class="p-2" src="{% static 'care_all/img/wherewearenow.jpg' %}" alt="..." width="97%">
+                        <p class="p-2 mr-4 text-justify" style="letter-spacing: .5px; font-weight: 500;">
+                            Care-All Foundation operates worldwide, with offices based in Spain. We are a registered foundation and abide by all spanish laws, rules and regulations.
+                            Our actions are located all over the globe. Our donors come from all over the world. Our team is of varied nationalities. There are no geographical boundries to kindness, it is far reaching. Our approach is personalized, human. We interact personally with all those we help, they become friends, sources of inspiration to us. 
+                        </p>
+                    </div>
+                    
+                    <div style="flex: 2;">
+                        <h3 class="text-center" style="color:  #a79344;">How to help</h3>
+                        <!-- <i class="fas fa-hand-holding-usd" style="font-size: 8em;"></i> -->
+
+                        <img src="{% static 'care_all/img/donate.jpg' %}" alt="..." width="97%">
+                        <p class="p-2 mr-4 mt-2 text-justify" style="letter-spacing: .5px; font-weight: 500;">
+                            Want your donation to go where it is most needed? Donate to our general fund.
+                        </p>
+                        <p class="p-2 mr-4 text-justify" style="letter-spacing: .5px; font-weight: 500;">
+                            When you make a gift, you will instantly receive an email with a profile of a family whose lives are being transformed by our programs.
+                        </p>
+                        <a href="{% url 'make_donation_page' %}">
+                            <button type="button" class="btn btn-light btn-lg btn-block">DONATE</button>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- about us section -->
+        
+        
+        
+        <section id="about_and_contact">
+			<div id="about_and_contactContactUs">
+				<div class="about_and_contactHeading">
+					<span>Contact Us</span>
+					<h3>Address Information</h3>
+                    <p class="mb-1">The Foundation is registered in the foundation state registry with registration number 1998.</p>
+                    <p><i class="fas fa-phone-alt"></i> Call us: 1800-222-333 (toll-free)</p>
+				</div>
+				<div class="about_and_contactAddress">
+					<h4>London Head Office</h4>
+					<p>Roeterseiland Campus Building E<br>
+					11th floor London<br>
+					Monday to Friday : 9am to 8pm<br>
+					londonoffice@mail.com</p>					
+				</div>
+				<div class="about_and_contactAddress">
+					<h4>India Office</h4>
+					<p>Mindspace Campus Building F<br>
+					6th floor Pune<br>
+					Monday to Friday : 9am to 8pm<br>
+					indiaoffice@mail.com</p>	
+				</div>
+			</div>
+
+			<div id="about_and_contactMeetUs">
+				<div class="about_and_contactHeading">
+					<span>Write To Us & Meet Our Team</span>
+					<h3>Get In Touch</h3>
+					<p>The information provided will be treated abiding to privacy legislation. Please read the complete privacy policy 
+                        <a href="{% url 'privacy_policy_page' %}">here.</a>
+                    </p>
+                </div>
+
+                <a href="{% url 'contact_us_page' %}">
+                    <button id="about_and_contactSubmitButton">Write to Us</button>
+                </a>
+								               
+			</div>
+		</section>
+        
+    </div>
+{% endblock %}
